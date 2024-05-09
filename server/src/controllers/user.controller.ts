@@ -11,9 +11,9 @@ export async function createUserHandler(
   try {
     const user = await createUser(body);
     await sendEmail({
-      from : "test@example.com",
       to: user.email, 
-      subject : "Please verfiy your account",
+      from : "test@example.com",
+      subject : "Please verify your email",
       text: `Verfication code ${user.verificationCode}. Id: ${user._id}`
     }
     );

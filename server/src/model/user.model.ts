@@ -1,14 +1,14 @@
 import {
-    DocumentType,
-    Severity,
-    getModelForClass,
-    modelOptions,
-    pre,
-    prop,
+  DocumentType,
+  Severity,
+  getModelForClass,
+  index,
+  modelOptions,
+  pre,
+  prop,
 } from "@typegoose/typegoose";
 import argon2 from "argon2";
 import log from "../utils/logger";
-
 let nanoid: ((size?: number | undefined) => string) | (() => any);
 
 (async function () {
@@ -25,6 +25,8 @@ let nanoid: ((size?: number | undefined) => string) | (() => any);
 
   return;
 })
+
+@index({email:1})
 @modelOptions({
   schemaOptions: {
     timestamps: true,
@@ -46,7 +48,7 @@ export class User {
   @prop({ required: true, default: () => nanoid() })
   verificationCode: string;
 
-  @prop({ required: true })
+  @prop()
   passwordResetCode: string | null;
 
   @prop({ default: true })
@@ -56,11 +58,12 @@ export class User {
     try {
       return await argon2.verify(this.password, CandiatePassword);
     } catch (error) {
-      log.error(error);
+      log.error(error,"could not validate password");
+      return false;
     }
   }
 }
 
-const UserModelClass = getModelForClass(User);
+const UserModel = getModelForClass(User);
 
-export default UserModelClass;
+export default UserModel;
