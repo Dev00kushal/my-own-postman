@@ -12,7 +12,7 @@ const vaildateResources =
       });
       next();
     } catch (error: any) {
-        res.send(400).send(error.errors)
+        res.status(400).send(error.errors)
     }
   };
 

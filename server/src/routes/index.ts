@@ -1,5 +1,5 @@
 import express from "express";
-import auth from "../routes/auth.routes";
+// import auth from "../routes/auth.routes";
 import user from "../routes/user.routes";
 const router = express.Router();
 
@@ -8,6 +8,6 @@ router.get('/healthchecker',(_,res)=>{
 })
 
 router.use(user);
-router.use(auth);
+// router.use(auth);
 
 export default router;
